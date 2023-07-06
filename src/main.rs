@@ -1,35 +1,51 @@
 // "cargo run"
 fn main() {
-    let int_number: u32 = 11;
-    let float_number: f32 = 5.4;
-    let is_bigger = 1 > 4;
+    println!("==========");
+    println!("==========");
 
-    println!("int: {}, float: {}", int_number, float_number);
+    struct Sample(char, i32, bool);
+    struct Student {
+        name: String,
+        level: u8,
+        remote: bool,
+    } // semi-colon is unnecessary.
+    struct Grades(char, char, char, char, f32);
 
-    println!("Is 1 bigger than 4? : {}", is_bigger);
+    let tuple_e = Sample('E', 4i32, true);
+
+    let user_1 = Student {
+        name: String::from("John Doe"),
+        level: 5,
+        remote: false,
+    };
+    let user_2 = Student {
+        level: 3,
+        remote: true,
+        name: String::from("Jane Doe"),
+    };
+
+    let mark_1 = Grades('A', 'B', 'B', 'C', 3.0);
+    let mark_2 = Grades('C', 'A', 'A', 'A', 3.5);
 
     println!(
-        "1 + 2 = {} and 8 - 5 = {} and 15 * 3 = {}",
-        1u32 + 2,
-        8i32 - 5,
-        15 * 3
+        "{}, level {}. Remote: {}. Grades: {}, {}, {}, {}. Average: {}",
+        user_1.name, user_1.level, user_1.remote, mark_1.0, mark_1.1, mark_1.2, mark_1.3, mark_1.4
     );
-
-    println!("9 / 2 = {} but 9.0 / 2.0 = {}", 9u32 / 2, 9.0 / 2.0);
-
-    let character_1: char = 'S';
-    let character_2: char = 'f';
-    let smiley_face = '😀';
-    let string_1 = "miley ";
-    let string_2: &str = "ace";
+    println!(
+        "{}, level {}. Remote: {}. Grades: {}, {}, {}, {}. Average: {}",
+        user_2.name, user_2.level, user_2.remote, mark_2.0, mark_2.1, mark_2.2, mark_2.3, mark_2.4
+    );
 
     println!(
-        "{} is a {}{}{}{}",
-        smiley_face, character_1, string_1, character_2, string_2
+        "first: {}, second: {}, third: {}",
+        tuple_e.0, tuple_e.1, tuple_e.2
     );
 
+    println!("==========");
+    println!("==========");
     check_var();
     check_shadowing();
+    check_data_type();
     check_print();
 }
 
@@ -65,4 +81,34 @@ fn check_shadowing() {
     let shadow_num = shadow_num * 2;
 
     println!("The shadow number is {}.", shadow_num);
+}
+
+fn check_data_type() {
+    let int_number: u32 = 11;
+    let float_number: f32 = 5.4;
+    let is_bigger = 1 > 4;
+
+    println!("int: {}, float: {}", int_number, float_number);
+
+    println!("Is 1 bigger than 4? : {}", is_bigger);
+
+    println!(
+        "1 + 2 = {} and 8 - 5 = {} and 15 * 3 = {}",
+        1u32 + 2,
+        8i32 - 5,
+        15 * 3
+    );
+
+    println!("9 / 2 = {} but 9.0 / 2.0 = {}", 9u32 / 2, 9.0 / 2.0);
+
+    let character_1: char = 'S';
+    let character_2: char = 'f';
+    let smiley_face = '😀';
+    let string_1 = "miley ";
+    let string_2: &str = "ace";
+
+    println!(
+        "{} is a {}{}{}{}",
+        smiley_face, character_1, string_1, character_2, string_2
+    );
 }
