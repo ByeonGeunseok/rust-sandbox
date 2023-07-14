@@ -1,11 +1,4 @@
-// "cargo run"
-fn main() {
-    println!("-*- -*- -*- -*- -*- -*- -*-");
-    practice_loop();
-    println!("-*- -*- -*- -*- -*- -*- -*-");
-}
-
-fn practice_loop() {
+fn practice_hash_map() {
     #[derive(PartialEq, Debug)]
     struct Car {
         color: String,
@@ -39,7 +32,7 @@ fn practice_loop() {
         let colors = ["Blue", "Green", "Red", "Silver"];
 
         let mut color = order as usize;
-        while color > 4 {
+        if color > 4 {
             color = color - 4;
         }
 
@@ -63,19 +56,35 @@ fn practice_loop() {
     use std::collections::HashMap;
     let mut orders: HashMap<i32, Car> = HashMap::new();
 
+    let mut order = 1;
     let mut car: Car;
 
-    let mut miles = 0;
+    car = car_factory(order, 1000);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
 
-    for order in 1..12 {
-        car = car_factory(order, miles);
-        orders.insert(order, car);
-        println!("Car order {}: {:?}", order, orders.get(&order));
+    order = order + 1;
+    car = car_factory(order, 2000);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
 
-        if miles == 2100 {
-            miles = 0;
-        } else {
-            miles = miles + 700;
-        }
-    }
+    order = order + 1;
+    car = car_factory(order, 0);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
+
+    order = order + 1;
+    car = car_factory(order, 0);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
+
+    order = order + 1;
+    car = car_factory(order, 3000);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
+
+    order = order + 1;
+    car = car_factory(order, 4000);
+    orders.insert(order, car);
+    println!("car order:{}, {:?}", order, orders.get(&order));
 }
