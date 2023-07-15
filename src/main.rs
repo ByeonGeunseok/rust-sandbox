@@ -1,10 +1,11 @@
 // "cargo run"
 fn main() {
     println!("-*- -*- -*- -*- -*- -*- -*-");
-    practice_result();
+    practice_lifetime();
     println!("-*- -*- -*- -*- -*- -*- -*-");
     practice_loop();
     practice_option();
+    practice_result();
 }
 
 fn practice_loop() {
@@ -152,4 +153,26 @@ fn practice_result() {
     if read_file_contents(PathBuf::from("non-existent-file.txt")).is_err() {
         println!("The program reported an error for the file that doesn't exist.");
     }
+}
+
+fn practice_lifetime() {
+    fn copy_and_return<'a>(vector: &'a mut Vec<String>, value: &'a str) -> &'a String {
+        vector.push(String::from(value));
+        vector.get(vector.len() - 1).unwrap()
+    }
+
+    let name1 = "Joe";
+    let name2 = "Chris";
+    let name3 = "Anne";
+
+    let mut names = Vec::new();
+
+    assert_eq!("Joe", copy_and_return(&mut names, &name1));
+    assert_eq!("Chris", copy_and_return(&mut names, &name2));
+    assert_eq!("Anne", copy_and_return(&mut names, &name3));
+
+    assert_eq!(
+        names,
+        vec!["Joe".to_string(), "Chris".to_string(), "Anne".to_string()]
+    )
 }
