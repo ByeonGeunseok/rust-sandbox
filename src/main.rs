@@ -1,11 +1,13 @@
 // "cargo run"
 fn main() {
     println!("-*- -*- -*- -*- -*- -*- -*-");
-    practice_lifetime();
+    practice_iterator();
     println!("-*- -*- -*- -*- -*- -*- -*-");
     practice_loop();
     practice_option();
     practice_result();
+    practice_lifetime();
+    practice_generic();
 }
 
 fn practice_loop() {
@@ -174,5 +176,96 @@ fn practice_lifetime() {
     assert_eq!(
         names,
         vec!["Joe".to_string(), "Chris".to_string(), "Anne".to_string()]
+    )
+}
+
+fn practice_generic() {
+    struct Container<T> {
+        value: T,
+    }
+
+    impl<T> Container<T> {
+        pub fn new(value: T) -> Self {
+            Container { value }
+        }
+    }
+
+    assert_eq!(Container::new(42).value, 42);
+    assert_eq!(Container::new(3.14).value, 3.14);
+    assert_eq!(Container::new("Foo").value, "Foo");
+    assert_eq!(
+        Container::new(String::from("Bar")).value,
+        String::from("Bar")
+    );
+    assert_eq!(Container::new(true).value, true);
+    assert_eq!(Container::new(-12).value, -12);
+    assert_eq!(Container::new(Some("text")).value, Some("text"));
+}
+
+fn practice_iterator() {
+    struct Groups<T> {
+        inner: Vec<T>,
+    }
+
+    impl<T> Groups<T> {
+        fn new(inner: Vec<T>) -> Self {
+            Groups { inner }
+        }
+    }
+
+    impl<T: PartialEq> Iterator for Groups<T> {
+        type Item = Vec<T>;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.inner.is_empty() {
+                return None;
+            }
+
+            let mut cursor = 1;
+            let first = &self.inner[0];
+            for element in &self.inner[1..] {
+                if element == first {
+                    cursor += 1;
+                } else {
+                    break;
+                }
+            }
+
+            // we use the `Vec::drain` to extract items up until the cursor
+            let items = self.inner.drain(0..cursor).collect();
+
+            // return the extracted items
+            Some(items)
+        }
+    }
+
+    let data = vec![4, 1, 1, 2, 1, 3, 3, -2, -2, -2, 5, 5];
+    // groups:     |->|---->|->|->|--->|----------->|--->|
+    assert_eq!(
+        Groups::new(data).into_iter().collect::<Vec<Vec<_>>>(),
+        vec![
+            vec![4],
+            vec![1, 1],
+            vec![2],
+            vec![1],
+            vec![3, 3],
+            vec![-2, -2, -2],
+            vec![5, 5],
+        ]
+    );
+
+    let data2 = vec![1, 2, 2, 1, 1, 2, 2, 3, 4, 4, 3];
+    // groups:      |->|---->|---->|----|->|----->|->|
+    assert_eq!(
+        Groups::new(data2).into_iter().collect::<Vec<Vec<_>>>(),
+        vec![
+            vec![1],
+            vec![2, 2],
+            vec![1, 1],
+            vec![2, 2],
+            vec![3],
+            vec![4, 4],
+            vec![3],
+        ]
     )
 }
