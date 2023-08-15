@@ -1,5 +1,9 @@
 // "cargo run"
 fn main() {
+    repeat_numbers();
+}
+
+fn repeat_numbers() {
     use rand::Rng;
     use std::collections::HashMap;
     use std::io::{self, Write};
